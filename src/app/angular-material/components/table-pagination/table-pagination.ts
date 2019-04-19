@@ -19,26 +19,19 @@ export class TablePaginationComponent implements OnInit, OnDestroy  {
 
   displayedColumns: string[] = ['id', 'nombre', 'apellido', 'numeroDocumento', 'tipoDocumento', 'fechaNacimiento', 'cambio'];
   dataSource: any;
-  personaFilter: Persona;
   private personas: Persona[];
   private ids: number[] = [];
   private personasChangeObs: Subscription;
 
-  tipoDocumentos: Observable<TipoDocumento[]>;
-
   constructor(
     private router: Router,
     private personaService: PersonaService,
-    private dialog: MatDialog,
-    private store: Store<AppState>) {
-      this.tipoDocumentos = this.store.select('tipoDocumento');
+    private dialog: MatDialog) {
     }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.personaFilter = new Persona();
-    this.personaFilter.tipoDocumento = 'Todos';
     this.personasChangeObs = this.personaService.personasChangeObs.subscribe( (personas: Persona[]) => {
         if ( this.ids.length === 0 ) {
           personas.forEach( t => {
@@ -54,12 +47,6 @@ export class TablePaginationComponent implements OnInit, OnDestroy  {
 
   ngOnDestroy() {
     this.personasChangeObs.unsubscribe();
-  }
-
-  filtrar() {
-    this.personaService.getPersonasByFilter(this.personaFilter).subscribe(todos => {
-      console.log(JSON.stringify(todos));
-    });
   }
 
   buscar() {

@@ -1,0 +1,29 @@
+<mat-card>
+  <h1>Filtros</h1>
+  <div class="decoration"></div>
+  <mat-card-content style="height: 110px;">
+    <div>
+      <div class="form-group col-xs-4 col-md-4">
+        <label for="name" class="control-label">Nombre</label>
+        <input type="text" [(ngModel)]="personaFilter.nombre" class="form-control" id="name" placeholder="Nombre...">
+      </div>
+      <div class="form-group col-xs-4 col-md-4">
+        <label for="tipoDocumento" class="control-label">Tipo Documento</label>
+        <select [(ngModel)]="personaFilter.tipoDocumento" id="tipoDocumento" class="form-control">
+          <option value="Todos">
+            Todos</option>
+          <option *ngFor="let tipoDocumento of tipoDocumentos  | async" [value]="tipoDocumento.descripcion">
+            {{tipoDocumento.descripcion}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-12" role="toolbar">
+      <button type="button" class="btn btn-primary btn-float-right" (click)="filtrar()" >
+        <span class="glyphicon glyphicon-search"></span>
+        Buscar</button>
+
+    </div>
+
+  </mat-card-content>
+</mat-card>
