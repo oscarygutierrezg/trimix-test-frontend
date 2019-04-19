@@ -1,0 +1,110 @@
+<div class="mat-elevation-z8">
+
+
+
+  <mat-card>
+    <h1>Filtros</h1>
+    <div class="decoration"></div>
+    <mat-card-content style="height: 110px;">
+      <div>
+        <div class="form-group col-xs-4 col-md-4">
+          <label for="name" class="control-label">Nombre</label>
+          <input type="text" [(ngModel)]="personaFilter.nombre" class="form-control" id="name" placeholder="Nombre...">
+        </div>
+        <div class="form-group col-xs-4 col-md-4">
+          <label for="tipoDocumento" class="control-label">Tipo Documento</label>
+          <select [(ngModel)]="personaFilter.tipoDocumento" id="tipoDocumento" class="form-control">
+            <option value="Todos">
+              Todos</option>
+            <option *ngFor="let tipoDocumento of tipoDocumentos  | async" [value]="tipoDocumento.descripcion">
+              {{tipoDocumento.descripcion}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-12" role="toolbar">
+        <button type="button" class="btn btn-primary btn-float-right" (click)="filtrar()" >
+          <span class="glyphicon glyphicon-search"></span>
+          Buscar</button>
+
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+  <div class="space-div"></div>
+  <mat-card>
+    <div class="flex-div col-xs-12 col-md-12">
+      <h1>Personas</h1>
+      <button type="button" class="btn btn-primary btn-float-right" (click)="buscar()" >
+        <span class="glyphicon glyphicon-filter"></span>
+      </button>
+    </div>
+
+    <div class="decoration"></div>
+    <mat-card-content>
+
+      <table mat-table [dataSource]="dataSource">
+
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="apellido">
+          <th mat-header-cell *matHeaderCellDef> Apellido </th>
+          <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="numeroDocumento">
+          <th mat-header-cell *matHeaderCellDef> Número Documento </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroDocumento}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tipoDocumento">
+          <th mat-header-cell *matHeaderCellDef> Tipo Documento </th>
+          <td mat-cell *matCellDef="let element"> {{element.tipoDocumento}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaNacimiento">
+          <th mat-header-cell *matHeaderCellDef> Fecha de Nacimiento </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaNacimiento | date: 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cambio">
+          <th mat-header-cell *matHeaderCellDef> Acción </th>
+          <td mat-cell *matCellDef="let element">
+
+
+          <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary btn-sm" (click)="editar(element.id)">
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-danger btn-sm" (click)="onConfirmCancel(element)">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </div>
+      </div>
+           
+
+        
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
